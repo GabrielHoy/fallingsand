@@ -8,6 +8,7 @@
 #include <thread>
 #include <iostream>
 
+//I use this to simplify the process of writing data to the screen
 void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
         Uint8 *target_pixel = (Uint8 *)surface->pixels + y * surface->pitch + x * 4;
@@ -30,27 +31,28 @@ struct Pixel
 
 int main()
 {
-    //Constants
+    //Constants&Variables
     int WINDOW_WIDTH = 800;
     int WINDOW_HEIGHT = 800;
-    int REAL_WIDTH = 1024;
-    int REAL_HEIGHT = 1024;
+    const int REAL_WIDTH = 1024;
+    const int REAL_HEIGHT = 1024;
     double lastTime = 0;
     double deltaTime = 0;
     double lastFPSNotice = 0;
-    //Initializations
+    bool shouldQuit = false;
+    //Initializations of the libraries
     glfwInit();
     SDL_Init(SDL_INIT_EVERYTHING);
-    //Objects
+    //Create Window, Renderer, the Surface to draw pixels to and the texture to copy surface pixels to the renderer
     SDL_Window* win = SDL_CreateWindow("SandGame", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
     SDL_RenderSetLogicalSize(renderer, 800, 800);
     SDL_Surface* surface = SDL_CreateRGBSurface(0, WINDOW_WIDTH, WINDOW_HEIGHT, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
     SDL_Event event;
-    bool shouldQuit = false;
     SDL_Texture* tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WINDOW_WIDTH, WINDOW_HEIGHT);
     SDL_SetRenderTarget(renderer, tex);
     SDL_RenderClear(renderer);
+    //pixel array to draw to screen
     Uint32* pixels = (Uint32*)surface->pixels;
     //Main loop
     while (!shouldQuit) {
@@ -58,6 +60,7 @@ int main()
         double time = glfwGetTime();
         deltaTime = time - lastTime;
         lastTime = time;
+        //notify the user of the current FPS
         if (time - lastFPSNotice > 0.5) {
             std::cout << 1.0f/deltaTime << std::endl;
             lastFPSNotice = time;
@@ -78,13 +81,13 @@ int main()
             }
         }
         
-        
-        
         SDL_UpdateTexture(tex, NULL, surface->pixels, surface->pitch); //pitch is the amount of bytes in one screen row
+        //copy the texture to the renderer, and render to the screen
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, tex, NULL, NULL);
         SDL_RenderPresent(renderer);
     }
+    //Cleanup
     SDL_DestroyRenderer(renderer);
     SDL_DestroyTexture(tex);
     SDL_DestroyWindow(win);
