@@ -1,0 +1,48 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe build active file for DEBUG",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}/src/*.cpp",
+                "-o",
+                "${workspaceFolder}/build/debug.exe",
+                //!library object linking directories
+                "-L", //non-static libraries
+                "${workspaceFolder}/lib",
+                "-L", //static libraries
+                "${workspaceFolder}/static_lib",
+                //!linking of libraries themselves
+                //GLFW 3
+                "-l",
+                "glfw3",
+                //SDL 2
+                "-l",
+                "SDL2main",
+                "-l",
+                "SDL2",
+                //!library include directories
+                "-I",
+                "${workspaceFolder}/include",
+                //!project-based include directories
+                "-I",
+                "${workspaceFolder}/src/",
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Perform a debugging-enabled build&run of the application."
+        }
+    ],
+    "version": "2.0.0"
+}

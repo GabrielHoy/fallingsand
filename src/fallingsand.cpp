@@ -2,6 +2,7 @@
     Gabriel Hoy
     3/18/2021
     Pixel simulation i'm testing out, nothing big yet
+    - Stored for now for future reference as I rewrite this in 2024
 */
 #include "SDL2/SDL.h"
 #include "GLFW/glfw3.h"
@@ -29,7 +30,7 @@ struct Pixel
     unsigned int lifetime;
 };
 
-int main()
+int main(int argv, char** args)
 {
     //Constants&Variables
     int WINDOW_WIDTH = 800;
