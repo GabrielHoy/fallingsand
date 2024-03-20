@@ -8,6 +8,7 @@ int main(int argv, char** args)
     std::cout << "Hello, World!" << std::endl;
     testIncludeFunc();
     glfwInit(); 
+    SDL_Init(SDL_INIT_EVERYTHING);
     std::cout << "GLFW initialized" << std::endl;
     //Create a quick GLFW window just to ensure functionality
     GLFWwindow* window = glfwCreateWindow(640, 480, "Hello, World!", NULL, NULL);
