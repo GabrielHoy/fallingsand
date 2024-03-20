@@ -30,7 +30,7 @@ struct Pixel
     unsigned int lifetime;
 };
 
-int main(int argv, char** args)
+int main_old(int argv, char** args)
 {
     //Constants&Variables
     int WINDOW_WIDTH = 800;
